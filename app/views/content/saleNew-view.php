@@ -5,10 +5,10 @@
 
 <div class="container pb-6 pt-6">
     <?php
-        $check_empresa=$insLogin->seleccionarDatos("Normal","empresa LIMIT 1","*",0);
+    $check_empresa = $insLogin->seleccionarDatos("Normal", "empresa LIMIT 1", "*", 0);
 
-        if($check_empresa->rowCount()==1){
-            $check_empresa=$check_empresa->fetch();
+    if ($check_empresa->rowCount() == 1) {
+        $check_empresa = $check_empresa->fetch();
     ?>
     <div class="columns">
 
@@ -44,17 +44,17 @@
                 </div>
             </form>
             <?php
-                if(isset($_SESSION['alerta_producto_agregado']) && $_SESSION['alerta_producto_agregado']!=""){
+                if (isset($_SESSION['alerta_producto_agregado']) && $_SESSION['alerta_producto_agregado'] != "") {
                     echo '
                     <div class="notification is-success is-light">
-                      '.$_SESSION['alerta_producto_agregado'].'
+                      ' . $_SESSION['alerta_producto_agregado'] . '
                     </div>
                     ';
                     unset($_SESSION['alerta_producto_agregado']);
                 }
 
-                if(isset($_SESSION['venta_codigo_factura']) && $_SESSION['venta_codigo_factura']!=""){
-            ?>
+                if (isset($_SESSION['venta_codigo_factura']) && $_SESSION['venta_codigo_factura'] != "") {
+                ?>
             <div class="notification is-info is-light mb-2 mt-2">
                 <h4 class="has-text-centered has-text-weight-bold">Venta realizada</h4>
                 <p class="has-text-centered mb-2">La venta se realizó con éxito. ¿Que desea hacer a continuación? </p>
@@ -63,14 +63,14 @@
                     <div class="columns">
                         <div class="column has-text-centered">
                             <button type="button" class="button is-link is-light"
-                                onclick="print_ticket('<?php echo APP_URL."app/pdf/ticket.php?code=".$_SESSION['venta_codigo_factura']; ?>')">
+                                onclick="print_ticket('<?php echo APP_URL . "app/pdf/ticket.php?code=" . $_SESSION['venta_codigo_factura']; ?>')">
                                 <i class="fas fa-receipt fa-2x"></i> &nbsp;
                                 Imprimir ticket de venta
                                 </buttona>
                         </div>
                         <div class="column has-text-centered">
                             <button type="button" class="button is-link is-light"
-                                onclick="print_invoice('<?php echo APP_URL."app/pdf/invoice.php?code=".$_SESSION['venta_codigo_factura']; ?>')">
+                                onclick="print_invoice('<?php echo APP_URL . "app/pdf/invoice.php?code=" . $_SESSION['venta_codigo_factura']; ?>')">
                                 <i class="fas fa-file-invoice-dollar fa-2x"></i> &nbsp;
                                 Imprimir factura de venta
                             </button>
@@ -81,7 +81,7 @@
             <?php
                     unset($_SESSION['venta_codigo_factura']);
                 }
-            ?>
+                ?>
             <div class="table-container">
                 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
                     <thead>
@@ -98,13 +98,13 @@
                     </thead>
                     <tbody>
                         <?php
-                            if(isset($_SESSION['datos_producto_venta']) && count($_SESSION['datos_producto_venta'])>=1){
+                            if (isset($_SESSION['datos_producto_venta']) && count($_SESSION['datos_producto_venta']) >= 1) {
 
-                                $_SESSION['venta_total']=0;
-                                $cc=1;
+                                $_SESSION['venta_total'] = 0;
+                                $cc = 1;
 
-                                foreach($_SESSION['datos_producto_venta'] as $productos){
-                        ?>
+                                foreach ($_SESSION['datos_producto_venta'] as $productos) {
+                            ?>
                         <tr class="has-text-centered">
                             <td><?php echo $cc; ?></td>
                             <td><?php echo $productos['producto_codigo']; ?></td>
@@ -117,9 +117,9 @@
                                         type="text" style="max-width: 80px;">
                                 </div>
                             </td>
-                            <td><?php echo MONEDA_SIMBOLO.number_format($productos['venta_detalle_precio_venta'],MONEDA_DECIMALES,MONEDA_SEPARADOR_DECIMAL,MONEDA_SEPARADOR_MILLAR)." ".MONEDA_NOMBRE; ?>
+                            <td><?php echo MONEDA_SIMBOLO . number_format($productos['venta_detalle_precio_venta'], MONEDA_DECIMALES, MONEDA_SEPARADOR_DECIMAL, MONEDA_SEPARADOR_MILLAR) . " " . MONEDA_NOMBRE; ?>
                             </td>
-                            <td><?php echo MONEDA_SIMBOLO.number_format($productos['venta_detalle_total'],MONEDA_DECIMALES,MONEDA_SEPARADOR_DECIMAL,MONEDA_SEPARADOR_MILLAR)." ".MONEDA_NOMBRE; ?>
+                            <td><?php echo MONEDA_SIMBOLO . number_format($productos['venta_detalle_total'], MONEDA_DECIMALES, MONEDA_SEPARADOR_DECIMAL, MONEDA_SEPARADOR_MILLAR) . " " . MONEDA_NOMBRE; ?>
                             </td>
                             <td>
                                 <button type="button" class="button is-success is-rounded is-small"
@@ -143,24 +143,24 @@
                             </td>
                         </tr>
                         <?php
-                                $cc++;
-                                $_SESSION['venta_total']+=$productos['venta_detalle_total'];
-                            }
-                        ?>
+                                    $cc++;
+                                    $_SESSION['venta_total'] += $productos['venta_detalle_total'];
+                                }
+                                ?>
                         <tr class="has-text-centered">
                             <td colspan="4"></td>
                             <td class="has-text-weight-bold">
                                 TOTAL
                             </td>
                             <td class="has-text-weight-bold">
-                                <?php echo MONEDA_SIMBOLO.number_format($_SESSION['venta_total'],MONEDA_DECIMALES,MONEDA_SEPARADOR_DECIMAL,MONEDA_SEPARADOR_MILLAR)." ".MONEDA_NOMBRE; ?>
+                                <?php echo MONEDA_SIMBOLO . number_format($_SESSION['venta_total'], MONEDA_DECIMALES, MONEDA_SEPARADOR_DECIMAL, MONEDA_SEPARADOR_MILLAR) . " " . MONEDA_NOMBRE; ?>
                             </td>
                             <td colspan="2"></td>
                         </tr>
                         <?php
-                            }else{
-                                    $_SESSION['venta_total']=0;
-                        ?>
+                            } else {
+                                $_SESSION['venta_total'] = 0;
+                            ?>
                         <tr class="has-text-centered">
                             <td colspan="8">
                                 No hay productos agregados
@@ -176,11 +176,11 @@
             <h2 class="title has-text-centered">Datos de la venta</h2>
             <hr>
 
-            <?php if($_SESSION['venta_total']>0){ ?>
+            <?php if ($_SESSION['venta_total'] > 0) { ?>
             <form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/ventaAjax.php" method="POST"
                 autocomplete="off" name="formsale">
                 <input type="hidden" name="modulo_venta" value="registrar_venta">
-                <?php }else { ?>
+                <?php } else { ?>
                 <form name="formsale">
                     <?php } ?>
 
@@ -193,28 +193,28 @@
                     <div class="select mb-5">
                         <select name="venta_caja">
                             <?php
-                            $datos_cajas=$insLogin->seleccionarDatos("Normal","caja","*",0);
+                                $datos_cajas = $insLogin->seleccionarDatos("Normal", "caja", "*", 0);
 
-                            while($campos_caja=$datos_cajas->fetch()){
-                                if($campos_caja['caja_id']==$_SESSION['caja']){
-                                    echo '<option value="'.$campos_caja['caja_id'].'" selected="" >Caja No.'.$campos_caja['caja_numero'].' - '.$campos_caja['caja_nombre'].' (Actual)</option>';
-                                }else{
-                                    echo '<option value="'.$campos_caja['caja_id'].'">Caja No.'.$campos_caja['caja_numero'].' - '.$campos_caja['caja_nombre'].'</option>';
+                                while ($campos_caja = $datos_cajas->fetch()) {
+                                    if ($campos_caja['caja_id'] == $_SESSION['caja']) {
+                                        echo '<option value="' . $campos_caja['caja_id'] . '" selected="" >Caja No.' . $campos_caja['caja_numero'] . ' - ' . $campos_caja['caja_nombre'] . ' (Actual)</option>';
+                                    } else {
+                                        echo '<option value="' . $campos_caja['caja_id'] . '">Caja No.' . $campos_caja['caja_numero'] . ' - ' . $campos_caja['caja_nombre'] . '</option>';
+                                    }
                                 }
-                            }
-                        ?>
+                                ?>
                         </select>
                     </div>
                     <br>
 
                     <label>Cliente</label>
                     <?php
-                    if(isset($_SESSION['datos_cliente_venta']) && count($_SESSION['datos_cliente_venta'])>=1 && $_SESSION['datos_cliente_venta']['cliente_id']!=1){
-                ?>
+                        if (isset($_SESSION['datos_cliente_venta']) && count($_SESSION['datos_cliente_venta']) >= 1 && $_SESSION['datos_cliente_venta']['cliente_id'] != 1) {
+                        ?>
                     <div class="field has-addons mb-5">
                         <div class="control">
                             <input class="input" type="text" readonly id="venta_cliente"
-                                value="<?php echo $_SESSION['datos_cliente_venta']['cliente_nombre']." ".$_SESSION['datos_cliente_venta']['cliente_apellido']; ?>">
+                                value="<?php echo $_SESSION['datos_cliente_venta']['cliente_nombre'] . " " . $_SESSION['datos_cliente_venta']['cliente_apellido']; ?>">
                         </div>
                         <div class="control">
                             <a class="button is-danger" title="Remove cliente" id="btn_remove_client"
@@ -223,34 +223,33 @@
                             </a>
                         </div>
                     </div>
-                    <?php 
-                    }else{
-                        $datos_cliente=$insLogin->seleccionarDatos("Normal","cliente WHERE cliente_id='1'","*",0);
-                        if($datos_cliente->rowCount()==1){
-                            $datos_cliente=$datos_cliente->fetch();
+                    <?php
+                        } else {
+                            $datos_cliente = $insLogin->seleccionarDatos("Normal", "cliente WHERE cliente_id='1'", "*", 0);
+                            if ($datos_cliente->rowCount() == 1) {
+                                $datos_cliente = $datos_cliente->fetch();
 
-                            $_SESSION['datos_cliente_venta']=[
-                                "cliente_id"=>$datos_cliente['cliente_id'],
-                                "cliente_tipo_documento"=>$datos_cliente['cliente_tipo_documento'],
-                                "cliente_numero_documento"=>$datos_cliente['cliente_numero_documento'],
-                                "cliente_nombre"=>$datos_cliente['cliente_nombre'],
-                                "cliente_apellido"=>$datos_cliente['cliente_apellido']
-                            ];
-
-                        }else{
-                            $_SESSION['datos_cliente_venta']=[
-                                "cliente_id"=>1,
-                                "cliente_tipo_documento"=>"N/A",
-                                "cliente_numero_documento"=>"N/A",
-                                "cliente_nombre"=>"Publico",
-                                "cliente_apellido"=>"General"
-                            ];
-                        }
-                ?>
+                                $_SESSION['datos_cliente_venta'] = [
+                                    "cliente_id" => $datos_cliente['cliente_id'],
+                                    "cliente_tipo_documento" => $datos_cliente['cliente_tipo_documento'],
+                                    "cliente_numero_documento" => $datos_cliente['cliente_numero_documento'],
+                                    "cliente_nombre" => $datos_cliente['cliente_nombre'],
+                                    "cliente_apellido" => $datos_cliente['cliente_apellido']
+                                ];
+                            } else {
+                                $_SESSION['datos_cliente_venta'] = [
+                                    "cliente_id" => 1,
+                                    "cliente_tipo_documento" => "N/A",
+                                    "cliente_numero_documento" => "N/A",
+                                    "cliente_nombre" => "Publico",
+                                    "cliente_apellido" => "General"
+                                ];
+                            }
+                        ?>
                     <div class="field has-addons mb-5">
                         <div class="control">
                             <input class="input" type="text" readonly id="venta_cliente"
-                                value="<?php echo $_SESSION['datos_cliente_venta']['cliente_nombre']." ".$_SESSION['datos_cliente_venta']['cliente_apellido']; ?>">
+                                value="<?php echo $_SESSION['datos_cliente_venta']['cliente_nombre'] . " " . $_SESSION['datos_cliente_venta']['cliente_apellido']; ?>">
                         </div>
                         <div class="control">
                             <a class="button is-info js-modal-trigger" data-target="modal-js-client"
@@ -260,7 +259,16 @@
                         </div>
                     </div>
                     <?php } ?>
-
+                    <div class="control mb-5">
+                        <label>Método de pago <?php echo CAMPO_OBLIGATORIO; ?></label>
+                        <div class="select">
+                            <select name="venta_metodo_pago">
+                                <option value="Efectivo">Efectivo</option>
+                                <option value="Tarjeta">Tarjeta</option>
+                                <option value="Transferencia">Transferencia</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="control mb-5">
                         <label>Total pagado por cliente <?php echo CAMPO_OBLIGATORIO; ?></label>
                         <input class="input" type="text" name="venta_abono" id="venta_abono" value="0.00"
@@ -272,11 +280,13 @@
                         <input class="input" type="text" id="venta_cambio" value="0.00" readonly>
                     </div>
 
+
+
                     <h4 class="subtitle is-5 has-text-centered has-text-weight-bold mb-5"><small>TOTAL A PAGAR:
-                            <?php echo MONEDA_SIMBOLO.number_format($_SESSION['venta_total'],MONEDA_DECIMALES,MONEDA_SEPARADOR_DECIMAL,MONEDA_SEPARADOR_MILLAR)." ".MONEDA_NOMBRE; ?></small>
+                            <?php echo MONEDA_SIMBOLO . number_format($_SESSION['venta_total'], MONEDA_DECIMALES, MONEDA_SEPARADOR_DECIMAL, MONEDA_SEPARADOR_MILLAR) . " " . MONEDA_NOMBRE; ?></small>
                     </h4>
 
-                    <?php if($_SESSION['venta_total']>0){ ?>
+                    <?php if ($_SESSION['venta_total'] > 0) { ?>
                     <p class="has-text-centered">
                         <button type="submit" class="button is-info is-rounded"><i class="far fa-save"></i> &nbsp;
                             Guardar venta</button>
@@ -286,13 +296,13 @@
                         <small>Los campos marcados con <?php echo CAMPO_OBLIGATORIO; ?> son obligatorios</small>
                     </p>
                     <input type="hidden"
-                        value="<?php echo number_format($_SESSION['venta_total'],MONEDA_DECIMALES,MONEDA_SEPARADOR_DECIMAL,""); ?>"
+                        value="<?php echo number_format($_SESSION['venta_total'], MONEDA_DECIMALES, MONEDA_SEPARADOR_DECIMAL, ""); ?>"
                         id="venta_total_hidden">
                 </form>
         </div>
 
     </div>
-    <?php }else{ ?>
+    <?php } else { ?>
     <article class="message is-warning">
         <div class="message-header">
             <p>¡Ocurrio un error inesperado!</p>
@@ -353,7 +363,6 @@
         </section>
     </div>
 </div>
-
 <script>
 /* Detectar cuando se envia el formulario para agregar producto */
 let sale_form_barcode = document.querySelector("#sale-barcode-form");
@@ -610,5 +619,5 @@ venta_abono_input.addEventListener('keyup', function(e) {
 </script>
 
 <?php
-    include "./app/views/inc/print_invoice_script.php";
+include "./app/views/inc/print_invoice_script.php";
 ?>
