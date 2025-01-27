@@ -263,9 +263,12 @@
                         <label>Método de pago <?php echo CAMPO_OBLIGATORIO; ?></label>
                         <div class="select">
                             <select name="venta_metodo_pago">
-                                <option value="Efectivo">Efectivo</option>
-                                <option value="Tarjeta">Tarjeta</option>
-                                <option value="Transferencia">Transferencia</option>
+                                <?php
+                                    $metodos_pago = $insLogin->seleccionarDatos("Normal", "metodo_pago", "*", 0);
+                                    while ($metodo = $metodos_pago->fetch()) {
+                                        echo '<option value="' . $metodo['metodo_pago_id'] . '">' . $metodo['metodo_pago_nombre'] . '</option>';
+                                    }
+                                    ?>
                             </select>
                         </div>
                     </div>
